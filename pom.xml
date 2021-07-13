@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.noser.heuteabstimmung</groupId>
+  <artifactId>parent</artifactId>
+  <version>0.1</version>
+
+  <modules>
+    <module>core</module>
+    <module>core-impl</module>
+    <module>datasource</module>
+    <module>persistence</module>
+    <module>app</module>
+  </modules>
+  <packaging>pom</packaging>
+
+  <parent>
+    <groupId>io.micronaut</groupId>
+    <artifactId>micronaut-parent</artifactId>
+    <version>2.5.0</version>
+  </parent>
+
+  <properties>
+    <packaging>jar</packaging>
+    <jdk.version>11</jdk.version>
+    <release.version>11</release.version>
+    <micronaut.version>2.5.0</micronaut.version>
+    <exec.mainClass>com.noser.heuteabstimmung.ApplicationKt</exec.mainClass>
+    <kotlinVersion>1.5.10</kotlinVersion>
+    <micronaut.runtime>netty</micronaut.runtime>
+    <swagger.version>2.4.0</swagger.version>
+    <kotest.version>4.2.5</kotest.version>
+  </properties>
+
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>https://repo.maven.apache.org/maven2</url>
+    </repository>
+  </repositories>
+
+  <dependencyManagement>
+
+    <dependencies>
+      <!-- KOTLIN -->
+      <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-reflect</artifactId>
+        <version>${kotlinVersion}</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-stdlib</artifactId>
+        <version>${kotlinVersion}</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <!-- force to use this version -->
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-stdlib-common</artifactId>
+        <version>${kotlinVersion}</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-stdlib-jdk8</artifactId>
+        <version>${kotlinVersion}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jetbrains.kotlin</groupId>
+        <artifactId>kotlin-stdlib-jdk7</artifactId>
+        <version>${kotlinVersion}</version>
+      </dependency>
+
+      <!-- KOTEST -->
+      <dependency>
+        <groupId>io.kotest</groupId>
+        <artifactId>kotest-runner-junit5-jvm</artifactId>
+        <version>${kotest.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>io.kotest</groupId>
+        <artifactId>kotest-assertions-core-jvm</artifactId>
+        <version>${kotest.version}</version>
+        <scope>test</scope>
+      </dependency>
+
+      <!-- MICRONAUT -->
+      <!-- Dependencies are defined in micronaut parent -->
+
+      <!-- DATABASE -->
+      <dependency>
+        <groupId>io.micronaut.sql</groupId>
+        <artifactId>micronaut-jdbc-hikari</artifactId>
+        <version>3.4.0</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>42.2.18</version>
+        <scope>runtime</scope>
+      </dependency>
+
+      <!-- LOGGING -->
+      <!-- from parent -->
+
+<!--      <dependency>-->
+<!--        <groupId>com.fasterxml.jackson.module</groupId>-->
+<!--        <artifactId>jackson-module-kotlin</artifactId>-->
+<!--        <scope>runtime</scope>-->
+<!--      </dependency>-->
+
+      <!-- TESTING -->
+      <dependency>
+        <groupId>io.mockk</groupId>
+        <artifactId>mockk</artifactId>
+        <version>1.9.3</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>1.15.2</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.testcontainers</groupId>
+        <artifactId>testcontainers</artifactId>
+        <version>1.15.2</version>
+        <scope>test</scope>
+      </dependency>
+
+      <!-- API -->
+      <dependency>
+        <groupId>io.swagger.core.v3</groupId>
+        <artifactId>swagger-annotations</artifactId>
+        <version>2.1.6</version>
+        <scope>compile</scope>
+      </dependency>
+
+      <!-- CLIENT -->
+      <dependency>
+        <groupId>com.squareup.okhttp3</groupId>
+        <artifactId>okhttp</artifactId>
+        <version>4.9.0</version>
+      </dependency>
+      <dependency>
+        <groupId>com.squareup.moshi</groupId>
+        <artifactId>moshi-kotlin</artifactId>
+        <version>1.11.0</version>
+      </dependency>
+    </dependencies>
+
+  </dependencyManagement>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>io.micronaut.build</groupId>
+          <artifactId>micronaut-maven-plugin</artifactId>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <configuration>
+            <includes>
+              <include>**/*Spec.*</include>
+              <include>**/*Test.*</include>
+            </includes>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.junit.jupiter</groupId>
+              <artifactId>junit-jupiter-engine</artifactId>
+              <version>${junit5.version}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+
+        <plugin>
+          <artifactId>kotlin-maven-plugin</artifactId>
+          <groupId>org.jetbrains.kotlin</groupId>
+          <version>${kotlinVersion}</version>
+          <configuration>
+            <jvmTarget>${jdk.version}</jvmTarget>
+            <compilerPlugins>
+              <plugin>all-open</plugin>
+            </compilerPlugins>
+            <pluginOptions>
+              <option>all-open:annotation=io.micronaut.aop.Around</option>
+            </pluginOptions>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.jetbrains.kotlin</groupId>
+              <artifactId>kotlin-maven-allopen</artifactId>
+              <version>${kotlinVersion}</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <configuration>
+            <proc>none</proc>
+            <source>${jdk.version}</source>
+            <target>${jdk.version}</target>
+          </configuration>
+          <executions>
+            <execution>
+              <id>default-compile</id>
+              <phase>none</phase>
+            </execution>
+            <execution>
+              <id>default-testCompile</id>
+              <phase>none</phase>
+            </execution>
+            <execution>
+              <id>java-compile</id>
+              <phase>compile</phase>
+              <goals>
+                <goal>compile</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>java-test-compile</id>
+              <phase>test-compile</phase>
+              <goals>
+                <goal>testCompile</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+
+      </plugins>
+    </pluginManagement>
+  </build>
+
+</project>
