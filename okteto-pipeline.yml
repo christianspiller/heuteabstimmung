@@ -1,0 +1,5 @@
+deploy:
+  - okteto build -t okteto.dev/heuteabstimmung-app:latest -f app/Dockerfile .
+#  - okteto build -t okteto.dev/heuteabstimmung-api:latest -f api/Dockerfile . # for later use: deploy api independent
+  - envsubst < app/kubernetes/deployment.yaml.template > app/kubernetes/deployment.yaml
+  - kubectl apply -f app/kubernetes

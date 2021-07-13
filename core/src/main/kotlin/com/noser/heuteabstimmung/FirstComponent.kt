@@ -19,8 +19,8 @@ class FirstComponent(val manageImportsUseCase: ManageImportsUseCase) {
 
     @PostConstruct
     internal fun setup() {
-        LOG.info("Setup done!")
         manageImportsUseCase.importLocations()
+        LOG.info("Setup done!")
     }
 
     @PreDestroy

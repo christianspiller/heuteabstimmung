@@ -1,0 +1,23 @@
+#this is written as template because we need to replace the env variables via
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heuteabstimmung
+spec:
+  selector:
+    matchLabels:
+      app: heuteabstimmung
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: heuteabstimmung
+    spec:
+      containers:
+        - name: heuteabstimmung
+          image: okteto.dev/heuteabstimmung-app:latest
+          env:
+            - name: GIT_COMMIT_HASH
+              value: $OKTETO_GIT_COMMIT
+          ports:
+            - containerPort: 8080
