@@ -1,0 +1,12 @@
+
+datasources:
+  default:
+    url: jdbc:postgresql://localhost:5432/demo
+
+flyway:
+  datasources:
+    default:
+      locations:
+        - classpath:db/migration
+        - classpath:db/migration-local
+      clean-schema: true

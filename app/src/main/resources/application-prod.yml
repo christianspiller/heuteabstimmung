@@ -1,0 +1,11 @@
+
+datasources:
+  default:
+    url: jdbc:postgresql://postgresql:5432/heuteabstimmung
+
+flyway:
+  datasources:
+    default:
+      locations:
+        - classpath:db/migration
+        - classpath:db/migration-prod

@@ -27,7 +27,25 @@
       <artifactId>core</artifactId>
       <version>0.1</version>
     </dependency>
-    
+
+    <!-- DATABASE -->
+    <dependency>
+      <groupId>io.micronaut.sql</groupId>
+      <artifactId>micronaut-jdbc-hikari</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.micronaut.flyway</groupId>
+      <artifactId>micronaut-flyway</artifactId>
+      <version>3.7.0</version>
+      <scope>compile</scope>
+    </dependency>
+
     <!-- MICRONAUT -->
     <dependency>
       <groupId>io.micronaut</groupId>

@@ -6,6 +6,9 @@ object ApplicationKt {
 
 	@JvmStatic
 	fun main(args: Array<String>) {
-		Micronaut.run(ApplicationKt.javaClass)
+		Micronaut.build()
+			.args(*args)
+			.packages("com.noser.heuteabstimmung")
+			.start()
 	}
 }
