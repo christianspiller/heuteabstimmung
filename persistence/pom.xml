@@ -42,20 +42,13 @@
     <dependency>
       <groupId>io.micronaut.flyway</groupId>
       <artifactId>micronaut-flyway</artifactId>
-      <version>3.7.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>io.micronaut.data</groupId>
       <artifactId>micronaut-data-hibernate-jpa</artifactId>
-      <version>2.4.7</version>
+<!--      <version>2.4.7</version>-->
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>io.micronaut.sql</groupId>-->
-<!--      <artifactId>micronaut-jdbc-tomcat</artifactId>-->
-<!--      <scope>runtime</scope>-->
-<!--    </dependency>-->
-
 
 
     <!-- MICRONAUT -->
@@ -136,7 +129,7 @@
 
   <build>
     <plugins>
-
+      
       <plugin>
         <artifactId>kotlin-maven-plugin</artifactId>
         <groupId>org.jetbrains.kotlin</groupId>
@@ -145,11 +138,13 @@
           <jvmTarget>${jdk.version}</jvmTarget>
           <compilerPlugins>
             <plugin>all-open</plugin>
+            <plugin>jpa</plugin>
           </compilerPlugins>
           <pluginOptions>
             <option>all-open:annotation=io.micronaut.aop.Around</option>
           </pluginOptions>
         </configuration>
+
         <executions>
           <execution>
             <id>kapt</id>
@@ -234,6 +229,11 @@
           <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-maven-allopen</artifactId>
+            <version>${kotlinVersion}</version>
+          </dependency>
+          <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-maven-noarg</artifactId>
             <version>${kotlinVersion}</version>
           </dependency>
         </dependencies>

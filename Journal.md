@@ -63,14 +63,43 @@ https://okteto.com/blog/connecting-to-database-with-port-forwarding/
 
 ## Micronaut Data
 
-Error: No backing RepositoryOperations configured for repository. Check your configuration and try again
+Error on Tests: No backing RepositoryOperations configured for repository. Check your configuration and try again
 
-=> Correct package scan:
+=> Correct dependencies (micronaut-jdbc-hikari, postgresql, micronaut-flyway, micronaut-data-hibernate-jpa)
+=> Correct package scan (I had a typo in 'persistence'):
 
     jpa:
         default:
             packages-to-scan:
                 - 'com.noser.heuteabstimmung.persistence.db'
+
+Error: The @Transactional method was blocked and nothing happened.
+
+=> I missed the @Entity at the data class.
+
+Error: Hibernate does not find secuence
+
+=> @GeneratedValue(strategy = GenerationType.IDENTITY) on the id of the Entity
+
+Error: Hibernate needs a default constructor on @Entity classes, but data classes in kotlin are usually designed with
+the values constructor.
+
+=> Kotlin has a plugin option: in the kotlin-maven-plugin of the persistence/pom.xml add
+
+    <configuration>
+      <compilerPlugins>
+        <plugin>jpa</plugin>
+      </compilerPlugins>
+    </configuration>
+    ...
+    <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-maven-noarg</artifactId>
+      <version>1.5.10</version>
+    </dependency>
+
+https://kotlinlang.org/docs/no-arg-plugin.html#jpa-support
+
 
 ## Endpoints
 ### Info Endpoint

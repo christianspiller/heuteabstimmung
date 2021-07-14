@@ -3,11 +3,16 @@ import com.noser.heuteabstimmung.persistence.db.impl.repositories.VotationLocati
 import io.micronaut.runtime.EmbeddedApplication
 import io.micronaut.test.extensions.kotest.annotation.MicronautTest
 import io.kotest.core.spec.style.StringSpec
+import io.kotest.matchers.optional.shouldBePresent
+import io.kotest.mpp.log
+import java.util.function.Consumer
 
 @MicronautTest
 class DatabaseTest(private val application: EmbeddedApplication<*>, private val votationLocationRepository: VotationLocationRepository): StringSpec({
 
     "test database access" {
-        votationLocationRepository.findById(0)
+        val location = votationLocationRepository.findById(1)
+
+        location.shouldBePresent()
     }
 })
