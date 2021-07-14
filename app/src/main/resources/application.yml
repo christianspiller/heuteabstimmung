@@ -6,7 +6,12 @@ datasources:
   default:
     driverClassName: org.postgresql.Driver
     username: 'demo'
-    password: 'x114d24x9123qht4gps1'
+
+# https://micronaut-projects.github.io/micronaut-flyway/latest/guide/index.html#additionalConfig
+flyway:
+  datasources:
+    default:
+      enabled: true
 
 jpa:
   default:
@@ -17,8 +22,4 @@ jpa:
         hbm2ddl:
           auto: none
         show_sql: true
-# https://micronaut-projects.github.io/micronaut-flyway/latest/guide/index.html#additionalConfig
-flyway:
-  datasources:
-    default:
-      enabled: true
+

@@ -8,7 +8,7 @@ object ApplicationKt {
 	fun main(args: Array<String>) {
 		Micronaut.build()
 			.args(*args)
-			.packages("com.noser.heuteabstimmung")
+			.mainClass(ApplicationKt.javaClass)
 			.start()
 	}
 }
