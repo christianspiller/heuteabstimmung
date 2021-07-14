@@ -29,9 +29,7 @@ some tasks).
 
 => Start Tasks with server events: Implement ApplicationEventListener<ServerStartupEvent> on the @Singleton class.
 
-## Integrations
-
-### Flyway integration
+## Flyway integration
 New dependncy to micronaut-flyway:3.7.0 had a problem with loading flyway-core from Maven repository. After severall 
 version changes it worked again. Don't know exactly how...
 
@@ -42,3 +40,40 @@ Another problem was
 => an unused property <flyway.version>3.2.1</flyway.version> changed the dependencies. Maybe the property was used
 in an external library.
 Help: Check dependencies in IntelliJ and with mvn
+
+## Okteto
+Add the database password as secret in the Okteto Cloud. The secrets are for all namespaces the same! So I needed to
+use environment variables like POSTGRESQL_PASSWORD_PROD.
+
+Add the micronaut environment as a variable on the deployment in the Okteto Cloud: MICRONAUT_ENVIRONMENTS
+
+These environment variables need to be declared in the app/kubernetes/deployment.yaml.template. The environment 
+variables are substituted from Okteto while deployment. This is done with the command envsubst in /okteto-pipeline.yml
+
+### Check the db
+https://okteto.com/blog/connecting-to-database-with-port-forwarding/
+
+    $> okteto namespace (runs a login via browser)
+    $> okteto namespace heuteabstimmung-christianspiller (switch to namespace)
+    $> kubectl get svc (get the available services)
+    NAME                  TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+    heuteabstimmung       ClusterIP   10.155.248.237   <none>        8080/TCP   19h
+    postgresql            ClusterIP   10.152.57.202    <none>        5432/TCP   29m
+    $> kubectl port-forward service/postgresql 6432:5432 (ports <local-port>:<remote-port>
+
+## Endpoints
+### Info Endpoint
+Micronaut displays the content of META-INF/build-info.properties file on the /health endpoint. This is created best with
+the spring-boot-maven-plugin (goal build-info) in the app/pom.xml
+
+    <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <executions>
+            <execution>
+                <goals>
+                    <goal>build-info</goal>
+                </goals>
+            </execution>
+        </executions>
+    </plugin>
