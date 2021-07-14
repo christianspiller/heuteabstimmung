@@ -1,6 +1,7 @@
-package com.noser.heuteabstimmung.core.ports.persistence
+package com.noser.heuteabstimmung.persitence.db.impl
 
 import com.noser.heuteabstimmung.core.model.VotationLocation
+import com.noser.heuteabstimmung.core.ports.persistence.LocationPersistencePort
 import org.slf4j.LoggerFactory
 import javax.inject.Singleton
 

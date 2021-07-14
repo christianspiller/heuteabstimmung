@@ -1,6 +1,7 @@
-package com.noser.heuteabstimmung.core.ports.persistence
+package com.noser.heuteabstimmung.persitence.db.impl
 
 import com.noser.heuteabstimmung.core.model.SourceDetails
+import com.noser.heuteabstimmung.core.ports.persistence.DataSourceDetailsPersistencePort
 import java.net.URI
 import javax.inject.Singleton
 
