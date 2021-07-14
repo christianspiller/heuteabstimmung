@@ -61,6 +61,17 @@ https://okteto.com/blog/connecting-to-database-with-port-forwarding/
     postgresql            ClusterIP   10.152.57.202    <none>        5432/TCP   29m
     $> kubectl port-forward service/postgresql 6432:5432 (ports <local-port>:<remote-port>
 
+## Micronaut Data
+
+Error: No backing RepositoryOperations configured for repository. Check your configuration and try again
+
+=> Correct package scan:
+
+    jpa:
+        default:
+            packages-to-scan:
+                - 'com.noser.heuteabstimmung.persistence.db'
+
 ## Endpoints
 ### Info Endpoint
 Micronaut displays the content of META-INF/build-info.properties file on the /health endpoint. This is created best with

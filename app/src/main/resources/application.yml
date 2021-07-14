@@ -17,7 +17,9 @@ flyway:
 jpa:
   default:
     packages-to-scan:
-      - 'com.noser.heuteabstimmung.core.ports.persistence'
+      - 'com.noser.heuteabstimmung.persistence.db'
+    entity-scan:
+      - 'com.noser.heuteabstimmung.persistence.db'
     properties:
       hibernate:
         hbm2ddl:
@@ -28,3 +30,4 @@ endpoints:
   info:
     enabled: true
     sensitive: false
+

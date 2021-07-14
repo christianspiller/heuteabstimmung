@@ -45,6 +45,18 @@
       <version>3.7.0</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>io.micronaut.data</groupId>
+      <artifactId>micronaut-data-hibernate-jpa</artifactId>
+      <version>2.4.7</version>
+    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>io.micronaut.sql</groupId>-->
+<!--      <artifactId>micronaut-jdbc-tomcat</artifactId>-->
+<!--      <scope>runtime</scope>-->
+<!--    </dependency>-->
+
+
 
     <!-- MICRONAUT -->
     <dependency>
@@ -159,6 +171,11 @@
                  <artifactId>micronaut-validation</artifactId>
                  <version>${micronaut.version}</version>
                </annotationProcessorPath>
+                <annotationProcessorPath>
+                  <groupId>io.micronaut.data</groupId>
+                  <artifactId>micronaut-data-processor</artifactId>
+                  <version>2.4.7</version>
+                </annotationProcessorPath>
               </annotationProcessorPaths>
               <annotationProcessorArgs>
                 <annotationProcessorArg>micronaut.processing.group=com.noser.heuteabstimmung</annotationProcessorArg>

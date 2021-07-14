@@ -1,4 +1,4 @@
-package com.noser.heuteabstimmung.persitence.db.impl
+package com.noser.heuteabstimmung.persistence.db.impl
 
 import com.noser.heuteabstimmung.core.model.SourceDetails
 import com.noser.heuteabstimmung.core.ports.persistence.DataSourceDetailsPersistencePort
