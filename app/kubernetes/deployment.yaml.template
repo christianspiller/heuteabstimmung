@@ -19,5 +19,9 @@ spec:
           env:
             - name: GIT_COMMIT_HASH
               value: $OKTETO_GIT_COMMIT
+            - name: POSTGRESQL_PASSWORD_PROD
+              value: $POSTGRESQL_PASSWORD_PROD
+            - name: MICRONAUT_ENVIRONMENTS
+              value: $MICRONAUT_ENVIRONMENTS
           ports:
             - containerPort: 8080

@@ -2,6 +2,8 @@
 datasources:
   default:
     url: jdbc:postgresql://postgresql:5432/heuteabstimmung
+    username: heuteabstimmung
+    password: '${POSTGRESQL_PASSWORD_PROD}'
 
 flyway:
   datasources:
@@ -9,3 +11,4 @@ flyway:
       locations:
         - classpath:db/migration
         - classpath:db/migration-prod
+      clean-schema: true
