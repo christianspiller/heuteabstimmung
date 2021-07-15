@@ -7,4 +7,5 @@ import javax.persistence.*
 data class VotationLocationEntity(@Id
                                   @GeneratedValue(strategy = GenerationType.IDENTITY)
                                   var id: Long,
+                                  var extid: String,
                                   var level: String)

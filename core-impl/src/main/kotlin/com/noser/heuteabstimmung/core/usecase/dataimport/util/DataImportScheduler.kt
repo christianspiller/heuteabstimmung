@@ -1,4 +1,4 @@
-package com.noser.heuteabstimmung.core.ports
+package com.noser.heuteabstimmung.core.usecase.dataimport.util
 
 import com.noser.heuteabstimmung.core.usecase.ImportLocationUseCase
 import io.micronaut.scheduling.TaskExecutors
@@ -11,14 +11,12 @@ import javax.inject.Named
 import javax.inject.Singleton
 
 @Singleton
-class DataImportScheduler(@param:Named(TaskExecutors.SCHEDULED) private val taskScheduler: TaskScheduler,
-                          val importLocationUseCase: ImportLocationUseCase) {
+class DataImportScheduler(@param:Named(TaskExecutors.SCHEDULED) private val taskScheduler: TaskScheduler) {
     private val LOG = LoggerFactory.getLogger(DataImportScheduler::class.java)
 
     var importTasks = mutableListOf<ImportTask>()
 
-    fun startImportTask() {
-        val importTask = ImportTask(importLocationUseCase)
+    fun startImportTask(importTask: ImportTask) {
         importTasks.add(importTask)
         taskScheduler.schedule(Duration.ofSeconds(5), importTask)
     }
