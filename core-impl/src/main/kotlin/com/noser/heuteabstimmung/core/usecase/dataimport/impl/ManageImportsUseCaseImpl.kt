@@ -18,8 +18,8 @@ class ManageImportsUseCaseImpl (private val dataImportScheduler: DataImportSched
                                 private val importLocationUseCase: ImportLocationUseCase):
     ManageImportsUseCase {
     override fun importLocations() {
-        dataSourceDetailsPersistencePort.getSourceDetails(DataType.LOCATION_DATA)
-            .forEach(Consumer { sourceDetails -> importLocations(sourceDetails) })
+//        dataSourceDetailsPersistencePort.getSourceDetails(DataType.LOCATION_DATA)
+//            .forEach(Consumer { sourceDetails -> importLocations(sourceDetails) })
     }
 
     private fun importLocations(sourceDetails: SourceDetails) {

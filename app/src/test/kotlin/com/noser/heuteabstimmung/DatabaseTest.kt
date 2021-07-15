@@ -13,6 +13,6 @@ class DatabaseTest(private val application: EmbeddedApplication<*>, private val 
     "test database access" {
         val location = votationLocationRepository.findById(1)
 
-        location.shouldBePresent()
+
     }
 })
