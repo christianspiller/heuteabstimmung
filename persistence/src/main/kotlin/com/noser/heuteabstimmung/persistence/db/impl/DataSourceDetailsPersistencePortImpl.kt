@@ -9,6 +9,6 @@ import javax.inject.Singleton
 @Singleton
 class DataSourceDetailsPersistencePortImpl : DataSourceDetailsPersistencePort {
     override fun getSourceDetails(dataType: DataType): List<SourceDetails> {
-        return listOf(SourceDetails("srg", URI("https://developer.srgssr.ch"), "any"))
+        return listOf(SourceDetails("srg", URI("https://developer.srgssr.ch"), true, "any"))
     }
 }

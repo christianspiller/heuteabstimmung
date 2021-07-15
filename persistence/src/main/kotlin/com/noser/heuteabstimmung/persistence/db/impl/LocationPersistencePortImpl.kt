@@ -16,7 +16,7 @@ open class LocationPersistencePortImpl(private val votationLocationRepository: V
     override fun saveLocation(location: VotationLocation) {
         LOG.info("Save location $location")
 
-        val votationLocationEntity = VotationLocationEntity(0, location.extid, location.level.toString())
+        val votationLocationEntity = VotationLocationEntity(0, location.extid, location.name, location.shortName, location.level.toString())
         votationLocationRepository.save(votationLocationEntity)
 
         LOG.info("Location saved $votationLocationEntity")

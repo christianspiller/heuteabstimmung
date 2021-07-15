@@ -13,6 +13,9 @@ class ImportLocationUseCaseImpl(val locationPersistencePort: LocationPersistence
 
     override fun importLocation(votationLocation: VotationLocation, sourceDetails: SourceDetails) {
         LOG.info("Import Location $votationLocation")
-        locationPersistencePort.saveLocation(votationLocation)
+        
+        if(sourceDetails.storageAllowed) {
+            locationPersistencePort.saveLocation(votationLocation)
+        }
     }
 }

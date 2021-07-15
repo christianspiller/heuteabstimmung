@@ -1,8 +1,8 @@
 package com.noser.heuteabstimmung.core.model
 
 enum class VotationLocationLevel {
-    Nation,
-    State,
-    Region,
-    Community
+    Land,
+    Kanton,
+    Bezirk,
+    Gemeinde
 }

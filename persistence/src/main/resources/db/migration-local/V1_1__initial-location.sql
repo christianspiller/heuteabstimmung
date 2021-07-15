@@ -1,1 +1,0 @@
-INSERT INTO votation_location (level) values ('NATION');

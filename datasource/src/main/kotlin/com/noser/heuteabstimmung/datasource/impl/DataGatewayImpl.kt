@@ -12,11 +12,10 @@ class DataGatewayImpl : DataGateway {
 
         for (counter in 0..10) {
             val votationLocation = VotationLocation(
-                0,
                 counter.toString(),
-                LocalizedString("${counter}_de", "${counter}_fr", "${counter}_it", "${counter}_en"),
-                VotationLocationLevel.State,
-                null
+                "${counter} de",
+                "${counter} short",
+                VotationLocationLevel.Kanton
             )
 
             locations.add(votationLocation)
@@ -28,11 +27,10 @@ class DataGatewayImpl : DataGateway {
 
     override fun getLocationByExtId(extId: String, sourceDetails: SourceDetails): VotationLocation? {
         return VotationLocation(
-            0,
             extId,
-            LocalizedString("${extId}_de", "${extId}_fr", "${extId}_it", "${extId}_en"),
-            VotationLocationLevel.State,
-            null
+            "${extId} de",
+            "${extId} short",
+            VotationLocationLevel.Kanton
         )
     }
 }
