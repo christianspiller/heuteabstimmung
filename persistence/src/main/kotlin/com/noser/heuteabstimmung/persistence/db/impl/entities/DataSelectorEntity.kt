@@ -1,10 +1,8 @@
 package com.noser.heuteabstimmung.persistence.db.impl.entities
 
-import io.micronaut.data.annotation.MappedEntity
-import io.micronaut.data.annotation.Relation
 import javax.persistence.*
 
-@MappedEntity
+@Entity
 @Table(name = "data_selector")
 data class DataSelectorEntity(@Id
                         @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +15,6 @@ data class DataSelectorEntity(@Id
                               var source: String
                         )
 {
-    @Relation(value = Relation.Kind.ONE_TO_MANY, mappedBy = "fk_data_selector")
-    private var indices: Set<DataIndexEntity> = emptySet()
+    @OneToMany(mappedBy = "dataSelectorEntity", fetch = FetchType.EAGER, cascade = [CascadeType.PERSIST])
+    var indices: List<DataIndexEntity> = mutableListOf()
 }

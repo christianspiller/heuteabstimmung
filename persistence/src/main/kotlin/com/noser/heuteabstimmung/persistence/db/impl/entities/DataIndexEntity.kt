@@ -6,7 +6,8 @@ import javax.persistence.*
 @Table(name = "data_index")
 data class DataIndexEntity(@Id
                             @GeneratedValue(strategy = GenerationType.IDENTITY)
-                            var id: Long,
-                           var key: String,
-                           var fk_data_selector: Long
+                            val id: Long,
+                           val key: String,
+                           @ManyToOne
+                           val dataSelectorEntity: DataSelectorEntity
                         )

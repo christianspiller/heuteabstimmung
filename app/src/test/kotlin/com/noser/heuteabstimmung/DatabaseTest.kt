@@ -1,18 +1,19 @@
 package com.noser.heuteabstimmung
-import com.noser.heuteabstimmung.persistence.db.impl.repositories.VotationLocationRepository
-import io.micronaut.runtime.EmbeddedApplication
-import io.micronaut.test.extensions.kotest.annotation.MicronautTest
 import io.kotest.core.spec.style.StringSpec
-import io.kotest.matchers.optional.shouldBePresent
-import io.kotest.mpp.log
-import java.util.function.Consumer
+import io.kotest.core.test.TestCase
+import io.kotest.core.test.TestResult
+import io.micronaut.test.extensions.kotest.annotation.MicronautTest
+import org.flywaydb.core.Flyway
+import javax.inject.Inject
 
-@MicronautTest
-class DatabaseTest(private val application: EmbeddedApplication<*>, private val votationLocationRepository: VotationLocationRepository): StringSpec({
+@MicronautTest(transactional = false)
+abstract class DatabaseTest(body: StringSpec.() -> Unit = {}) : StringSpec(body) {
 
-    "test database access" {
-        val location = votationLocationRepository.findById(1)
+    @Inject
+    lateinit var flyway: Flyway // We inject the Flyway instance only here
 
-
+    override fun afterTest(testCase: TestCase, result: TestResult) {
+//        flyway.clean()
+//        flyway.migrate()
     }
-})
+}

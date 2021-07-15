@@ -21,7 +21,7 @@ CREATE TABLE data_selector (
 CREATE TABLE data_index (
     id INT GENERATED ALWAYS AS IDENTITY,
     key VARCHAR(30) NOT NULL,
-    fk_data_selector_id INT,
+    data_selector_entity_id INT,
     PRIMARY KEY (id),
-    CONSTRAINT fk_data_selector FOREIGN KEY (fk_data_selector_id) REFERENCES data_selector(id)
+    CONSTRAINT fk_data_selector FOREIGN KEY (data_selector_entity_id) REFERENCES data_selector(id)
 )
