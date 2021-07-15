@@ -10,10 +10,10 @@ import javax.inject.Inject
 abstract class DatabaseTest(body: StringSpec.() -> Unit = {}) : StringSpec(body) {
 
     @Inject
-    lateinit var flyway: Flyway // We inject the Flyway instance only here
+    lateinit var flyway: Flyway
 
     override fun afterTest(testCase: TestCase, result: TestResult) {
-//        flyway.clean()
-//        flyway.migrate()
+        flyway.clean()
+        flyway.migrate()
     }
 }
