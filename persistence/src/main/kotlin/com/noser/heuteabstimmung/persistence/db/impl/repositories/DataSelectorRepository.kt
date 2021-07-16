@@ -11,4 +11,10 @@ import io.micronaut.data.repository.CrudRepository
 interface DataSelectorRepository : CrudRepository<DataSelectorEntity, Long> {
     @Executable
     fun saveAll(dataIndexEntities: MutableList<DataIndexEntity>): MutableList<DataIndexEntity>
+
+    @Executable
+    fun findByHash(hash: String): DataSelectorEntity?
+
+    @Executable
+    fun findByExtidAndSource(extid: String, source: String): DataSelectorEntity?
 }

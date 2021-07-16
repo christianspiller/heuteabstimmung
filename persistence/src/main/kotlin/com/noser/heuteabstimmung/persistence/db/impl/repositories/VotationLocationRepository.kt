@@ -7,6 +7,4 @@ import io.micronaut.data.repository.CrudRepository
 
 @Repository
 interface VotationLocationRepository : CrudRepository<VotationLocationEntity, Long> {
-    @Executable
-    fun find(level: String): List<VotationLocationEntity>
 }

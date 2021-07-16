@@ -19,15 +19,23 @@ class ImportLocationUseCaseImpl(private val locationPersistencePort: LocationPer
     override fun importLocation(votationLocation: VotationLocation, sourceDetails: SourceDetails) {
         LOG.info("Import Location $votationLocation")
         
+        val dataSelector = createLocationDataSelector(votationLocation, sourceDetails)
+
         if(sourceDetails.storageAllowed) {
-            locationPersistencePort.saveLocation(votationLocation)
+            locationPersistencePort.saveLocationAndSelector(votationLocation, dataSelector)
+        } else {
+            locationPersistencePort.saveSelector(votationLocation, dataSelector)
         }
 
+    }
+
+    fun createLocationDataSelector(votationLocation: VotationLocation, sourceDetails: SourceDetails) : DataSelector {
         val dataSelector = DataSelector(votationLocation.name, votationLocation.extid, "Location",
             votationLocation.level.toString(), votationLocation.hashCode().toString(), sourceDetails.name)
 
         val keys = indexKeysCreator.createIndexKeys(votationLocation.name, votationLocation.shortName)
+        dataSelector.indexKeys = keys
 
-        dataSelectorPersistencePort.saveDataSelector(dataSelector, keys)
+        return dataSelector
     }
 }

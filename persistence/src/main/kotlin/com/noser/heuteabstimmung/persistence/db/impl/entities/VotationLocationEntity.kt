@@ -7,7 +7,6 @@ import javax.persistence.*
 data class VotationLocationEntity(@Id
                                   @GeneratedValue(strategy = GenerationType.IDENTITY)
                                   var id: Long,
-                                  var extid: String,
-                                  var name: String,
                                   var shortName: String,
-                                  var level: String)
+                                  @ManyToOne
+                                  val dataSelectorEntity: DataSelectorEntity)

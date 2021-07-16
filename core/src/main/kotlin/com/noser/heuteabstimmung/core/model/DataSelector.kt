@@ -8,5 +8,5 @@ data class DataSelector(var name: String,
                         var hash: String,
                         var source: String)
 {
-    private var indices: Set<String> = emptySet()
+    var indexKeys: Set<String> = emptySet()
 }
