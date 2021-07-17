@@ -203,3 +203,14 @@ My test
 did pass even when the returned list was empty! Always use
 
     repository.findAll() shouldHaveSingleElement DataSelectorEntity(...)
+
+
+## IntelliJ
+
+### Kotlin Integration
+
+The integration of the Kotlin annotation processor (kapt) is very bad. The build inside IntelliJ does not update
+anything in relation with annotations. A mvn install from the run configuration has to be done, when you:
+- add/change/remove annotations. e.g. @Singleton, @Prototype, @Query
+- change attributes of annotations. e.g. @Query("From x") -> @Query("From x where y")
+

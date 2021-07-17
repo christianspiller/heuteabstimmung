@@ -4,17 +4,23 @@ import com.noser.heuteabstimmung.persistence.db.impl.entities.DataIndexEntity
 import com.noser.heuteabstimmung.persistence.db.impl.entities.DataSelectorEntity
 import com.noser.heuteabstimmung.persistence.db.impl.entities.VotationLocationEntity
 import io.micronaut.context.annotation.Executable
+import io.micronaut.data.annotation.Query
 import io.micronaut.data.annotation.Repository
 import io.micronaut.data.repository.CrudRepository
+import java.awt.print.Book
+import javax.persistence.EntityManager
 
 @Repository
-interface DataSelectorRepository : CrudRepository<DataSelectorEntity, Long> {
+abstract class DataSelectorRepository(private val entityManager: EntityManager) : CrudRepository<DataSelectorEntity, Long> {
     @Executable
-    fun saveAll(dataIndexEntities: MutableList<DataIndexEntity>): MutableList<DataIndexEntity>
+    abstract fun saveAll(dataIndexEntities: MutableList<DataIndexEntity>): MutableList<DataIndexEntity>
 
     @Executable
-    fun findByHash(hash: String): DataSelectorEntity?
+    abstract fun findByHash(hash: String): DataSelectorEntity?
 
     @Executable
-    fun findByExtidAndSource(extid: String, source: String): DataSelectorEntity?
+    abstract fun findByExtidAndSource(extid: String, source: String): DataSelectorEntity?
+
+    @Query("SELECT selector FROM DataSelectorEntity selector LEFT JOIN selector.indices di WHERE LOWER(di.key) like LOWER(:query)")
+    abstract fun listDataSelectors(query: String): List<DataSelectorEntity>
 }

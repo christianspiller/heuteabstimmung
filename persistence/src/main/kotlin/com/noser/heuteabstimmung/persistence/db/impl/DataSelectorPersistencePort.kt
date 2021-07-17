@@ -12,7 +12,10 @@ open class DataSelectorPersistencePort(
 
     @Transactional
     override fun findDataSelector(query: String): List<DataSelector> {
-        return emptyList()
+        val listDataSelectors = dataSelectorRepository.listDataSelectors("$query%")
+
+        return listDataSelectors.map { entity ->
+            DataSelector(entity.name, entity.extid, entity.type, entity.level, entity.hash, entity.source) }
     }
 
 }
