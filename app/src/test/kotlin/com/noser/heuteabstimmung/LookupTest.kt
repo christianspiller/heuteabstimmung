@@ -1,9 +1,13 @@
 package com.noser.heuteabstimmung
 
 import com.noser.heuteabstimmung.core.model.DataSelector
+import com.noser.heuteabstimmung.core.model.DataType
+import com.noser.heuteabstimmung.core.model.DivisionLevel
 import com.noser.heuteabstimmung.core.usecase.LookupDataUseCase
 import com.noser.heuteabstimmung.persistence.db.impl.entities.DataIndexEntity
 import com.noser.heuteabstimmung.persistence.db.impl.entities.DataSelectorEntity
+import com.noser.heuteabstimmung.persistence.db.impl.entities.DataTypeEntity
+import com.noser.heuteabstimmung.persistence.db.impl.entities.DivisionLevelEntity
 import com.noser.heuteabstimmung.persistence.db.impl.repositories.DataSelectorRepository
 import io.kotest.core.test.TestCase
 import io.kotest.inspectors.forAll
@@ -21,13 +25,13 @@ class LookupTest(
     override fun beforeTest(testCase: TestCase) {
         super.beforeTest(testCase)
 
-        val dataSelectorEntity = DataSelectorEntity(0, "Kanton Bern", "123", "Location",
-            "Kanton", "xyz", "srg")
+        val dataSelectorEntity = DataSelectorEntity(0, "Kanton Bern", "123", DataTypeEntity.LOCATION_DATA,
+            DivisionLevelEntity.Canton, "xyz", "srg")
         dataSelectorRepository.save(dataSelectorEntity)
         addKeys(dataSelectorEntity, "Bern", "Kanton", "BE")
 
-        val dataSelectorEntity2 = DataSelectorEntity(0, "Kanton Luzern", "456", "Location",
-            "Kanton", "xyz", "srg")
+        val dataSelectorEntity2 = DataSelectorEntity(0, "Kanton Luzern", "456",  DataTypeEntity.LOCATION_DATA,
+            DivisionLevelEntity.Canton, "xyz", "srg")
         dataSelectorRepository.save(dataSelectorEntity2)
         addKeys(dataSelectorEntity2, "Luzern", "Kanton", "LU")
     }
@@ -48,7 +52,7 @@ class LookupTest(
             listOf("Bern", "Ber", "ber", "bER").forAll { key ->
                 lookupDataUseCase.findLocationSelectors(key, null) shouldHaveSingleElement
                         DataSelector("Kanton Bern", "123",
-                            "Location", "Kanton", "xyz", "srg")
+                            DataType.LOCATION_DATA, DivisionLevel.Canton, "xyz", "srg")
             }
         }
 
@@ -66,9 +70,9 @@ class LookupTest(
                 lookupDataUseCase.findLocationSelectors(key, null) shouldContainAll
                         listOf(
                             DataSelector("Kanton Bern", "123",
-                            "Location", "Kanton", "xyz", "srg"),
+                                DataType.LOCATION_DATA, DivisionLevel.Canton, "xyz", "srg"),
                             DataSelector("Kanton Luzern", "456",
-                                "Location", "Kanton", "xyz", "srg"))
+                                DataType.LOCATION_DATA, DivisionLevel.Canton, "xyz", "srg"))
             }
         }
 

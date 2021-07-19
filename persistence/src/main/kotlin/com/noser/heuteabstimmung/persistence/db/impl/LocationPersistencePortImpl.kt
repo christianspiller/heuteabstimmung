@@ -6,6 +6,7 @@ import com.noser.heuteabstimmung.core.ports.persistence.LocationPersistencePort
 import com.noser.heuteabstimmung.persistence.db.impl.entities.DataIndexEntity
 import com.noser.heuteabstimmung.persistence.db.impl.entities.DataSelectorEntity
 import com.noser.heuteabstimmung.persistence.db.impl.entities.VotationLocationEntity
+import com.noser.heuteabstimmung.persistence.db.impl.mapper.DataSelectorMapper
 import com.noser.heuteabstimmung.persistence.db.impl.repositories.DataSelectorRepository
 import com.noser.heuteabstimmung.persistence.db.impl.repositories.VotationLocationRepository
 import org.slf4j.LoggerFactory
@@ -15,12 +16,13 @@ import javax.transaction.Transactional
 
 @Singleton
 open class LocationPersistencePortImpl(private val votationLocationRepository: VotationLocationRepository,
-                                       private val dataSelectorRepository: DataSelectorRepository) : LocationPersistencePort {
-    private val LOG = LoggerFactory.getLogger(LocationPersistencePortImpl::class.java)
+                                       private val dataSelectorRepository: DataSelectorRepository,
+                                       private val dataSelectorMapper: DataSelectorMapper) : LocationPersistencePort {
+    private val log = LoggerFactory.getLogger(LocationPersistencePortImpl::class.java)
 
     @Transactional
     override fun saveLocationAndSelector(location: VotationLocation, dataSelector: DataSelector) {
-        LOG.info("Save location $location")
+        log.info("Save location $location")
 
         if(dataSelectorExists(dataSelector)) {
             return
@@ -31,7 +33,7 @@ open class LocationPersistencePortImpl(private val votationLocationRepository: V
         val votationLocationEntity = VotationLocationEntity(0, location.shortName, dataSelectorEntity)
         votationLocationRepository.save(votationLocationEntity)
 
-        LOG.info("Location saved $votationLocationEntity")
+        log.info("Location saved $votationLocationEntity")
     }
 
     @Transactional
@@ -40,10 +42,7 @@ open class LocationPersistencePortImpl(private val votationLocationRepository: V
     }
 
     private fun saveDataSelector(dataSelector: DataSelector): DataSelectorEntity {
-        var dataSelectorEntity = DataSelectorEntity(
-            0, dataSelector.name, dataSelector.extid, dataSelector.type, dataSelector.level,
-            dataSelector.hash, dataSelector.source
-        )
+        var dataSelectorEntity = dataSelectorMapper.toEntity(dataSelector)
 
         dataSelectorEntity = dataSelectorRepository.save(dataSelectorEntity)
 
@@ -60,6 +59,6 @@ open class LocationPersistencePortImpl(private val votationLocationRepository: V
     }
 
     private fun dataSelectorExists(dataSelector: DataSelector): Boolean {
-        return dataSelectorRepository.findByExtidAndSource(dataSelector.extid, dataSelector.source) != null
+        return dataSelectorRepository.findByExtIdAndSource(dataSelector.extId, dataSelector.source) != null
     }
 }

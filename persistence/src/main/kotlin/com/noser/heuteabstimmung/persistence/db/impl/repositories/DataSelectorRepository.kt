@@ -19,7 +19,7 @@ abstract class DataSelectorRepository(private val entityManager: EntityManager) 
     abstract fun findByHash(hash: String): DataSelectorEntity?
 
     @Executable
-    abstract fun findByExtidAndSource(extid: String, source: String): DataSelectorEntity?
+    abstract fun findByExtIdAndSource(extid: String, source: String): DataSelectorEntity?
 
     @Query("SELECT selector FROM DataSelectorEntity selector LEFT JOIN selector.indices di WHERE LOWER(di.key) like LOWER(:query)")
     abstract fun listDataSelectors(query: String): List<DataSelectorEntity>

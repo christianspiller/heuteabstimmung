@@ -15,7 +15,7 @@ class DataGatewayImpl : DataGateway {
                 counter.toString(),
                 "${counter} de",
                 "${counter} short",
-                VotationLocationLevel.Kanton
+                DivisionLevel.Canton
             )
 
             locations.add(votationLocation)
@@ -30,7 +30,7 @@ class DataGatewayImpl : DataGateway {
             extId,
             "${extId} de",
             "${extId} short",
-            VotationLocationLevel.Kanton
+            DivisionLevel.Canton
         )
     }
 }

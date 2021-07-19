@@ -8,9 +8,9 @@ data class DataSelectorEntity(@Id
                         @GeneratedValue(strategy = GenerationType.IDENTITY)
                         var id: Long,
                               var name: String,
-                              var extid: String,
-                              var type: String,
-                              var level: String,
+                              var extId: String,
+                              var dataType: DataTypeEntity,
+                              var divisionLevel: DivisionLevelEntity,
                               var hash: String,
                               var source: String
                         )
