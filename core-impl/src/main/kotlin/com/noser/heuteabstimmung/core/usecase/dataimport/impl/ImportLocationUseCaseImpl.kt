@@ -1,9 +1,6 @@
 package com.noser.heuteabstimmung.core.usecase.dataimport.impl
 
-import com.noser.heuteabstimmung.core.model.DataSelector
-import com.noser.heuteabstimmung.core.model.DataType
-import com.noser.heuteabstimmung.core.model.SourceDetails
-import com.noser.heuteabstimmung.core.model.VotationLocation
+import com.noser.heuteabstimmung.core.model.*
 import com.noser.heuteabstimmung.core.ports.persistence.LocationPersistencePort
 import com.noser.heuteabstimmung.core.usecase.ImportLocationUseCase
 import com.noser.heuteabstimmung.core.usecase.dataimport.util.IndexKeysCreator
@@ -28,13 +25,16 @@ class ImportLocationUseCaseImpl(private val locationPersistencePort: LocationPer
 
     }
 
-    private fun createLocationDataSelector(votationLocation: VotationLocation, sourceDetails: SourceDetails) : DataSelector {
+    private fun createLocationDataSelector(votationLocation: VotationLocation, sourceDetails: SourceDetails)
+    : VotationLocationDataSelector {
         val dataSelector = DataSelector(votationLocation.name, votationLocation.extid, DataType.LOCATION_DATA,
-            votationLocation.level, votationLocation.hashCode().toString(), sourceDetails.name)
+            votationLocation.hashCode().toString(), sourceDetails.name)
+
+        val votationLocationDataSelector = VotationLocationDataSelector(dataSelector, votationLocation.level)
 
         val keys = indexKeysCreator.createIndexKeys(votationLocation.name, votationLocation.shortName)
         dataSelector.indexKeys = keys
 
-        return dataSelector
+        return votationLocationDataSelector
     }
 }

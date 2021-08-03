@@ -1,7 +1,7 @@
 package com.noser.heuteabstimmung.core.ports.persistence
 
-import com.noser.heuteabstimmung.core.model.DataSelector
+import com.noser.heuteabstimmung.core.model.VotationLocationDataSelector
 
 interface DataSelectorPersistencePort {
-    fun findDataSelector(query: String): List<DataSelector>
+    fun findVotationLocationDataSelectors(query: String): List<VotationLocationDataSelector>
 }

@@ -3,12 +3,11 @@ package com.noser.heuteabstimmung
 import com.noser.heuteabstimmung.core.model.DataSelector
 import com.noser.heuteabstimmung.core.model.DataType
 import com.noser.heuteabstimmung.core.model.DivisionLevel
+import com.noser.heuteabstimmung.core.model.VotationLocationDataSelector
 import com.noser.heuteabstimmung.core.usecase.LookupDataUseCase
-import com.noser.heuteabstimmung.persistence.db.impl.entities.DataIndexEntity
-import com.noser.heuteabstimmung.persistence.db.impl.entities.DataSelectorEntity
-import com.noser.heuteabstimmung.persistence.db.impl.entities.DataTypeEntity
-import com.noser.heuteabstimmung.persistence.db.impl.entities.DivisionLevelEntity
+import com.noser.heuteabstimmung.persistence.db.impl.entities.*
 import com.noser.heuteabstimmung.persistence.db.impl.repositories.DataSelectorRepository
+import com.noser.heuteabstimmung.persistence.db.impl.repositories.VotationLocationDataSelectorRepository
 import io.kotest.core.test.TestCase
 import io.kotest.inspectors.forAll
 import io.kotest.matchers.collections.shouldContainAll
@@ -19,21 +18,27 @@ import java.util.function.Consumer
 
 class LookupTest(
     private val lookupDataUseCase: LookupDataUseCase,
-    private val dataSelectorRepository: DataSelectorRepository
+    private val dataSelectorRepository: DataSelectorRepository,
+    private val votationLocationDataSelectorRepository: VotationLocationDataSelectorRepository
 ) : DatabaseTest() {
 
     override fun beforeTest(testCase: TestCase) {
         super.beforeTest(testCase)
 
-        val dataSelectorEntity = DataSelectorEntity(0, "Kanton Bern", "123", DataTypeEntity.LOCATION_DATA,
-            DivisionLevelEntity.Canton, "xyz", "srg")
-        dataSelectorRepository.save(dataSelectorEntity)
-        addKeys(dataSelectorEntity, "Bern", "Kanton", "BE")
+        val dataSelectorEntityBe = DataSelectorEntity(0, "Kanton Bern", "123",
+            DataTypeEntity.LOCATION_DATA, "xyz", "srg")
+        dataSelectorRepository.save(dataSelectorEntityBe)
+        addKeys(dataSelectorEntityBe, "Bern", "Kanton", "BE")
+        votationLocationDataSelectorRepository.save(
+            VotationLocationDataSelectorEntity(0, dataSelectorEntityBe, DivisionLevelEntity.Canton))
 
-        val dataSelectorEntity2 = DataSelectorEntity(0, "Kanton Luzern", "456",  DataTypeEntity.LOCATION_DATA,
-            DivisionLevelEntity.Canton, "xyz", "srg")
-        dataSelectorRepository.save(dataSelectorEntity2)
-        addKeys(dataSelectorEntity2, "Luzern", "Kanton", "LU")
+
+        val dataSelectorEntityLu = DataSelectorEntity(0,"Kanton Luzern", "456",  DataTypeEntity.LOCATION_DATA,
+            "xyz", "srg")
+        dataSelectorRepository.save(dataSelectorEntityLu)
+        addKeys(dataSelectorEntityLu, "Luzern", "Kanton", "LU")
+        votationLocationDataSelectorRepository.save(
+            VotationLocationDataSelectorEntity(0, dataSelectorEntityLu, DivisionLevelEntity.Canton))
     }
 
     private fun addKeys(dataSelectorEntity: DataSelectorEntity, vararg keys: String) {
@@ -48,11 +53,13 @@ class LookupTest(
     init {
 
         "test search by keyword should return data selector candidates" {
+            val dataSelector =  DataSelector("Kanton Bern", "123",
+                DataType.LOCATION_DATA, "xyz", "srg")
+            val expected = VotationLocationDataSelector(dataSelector, DivisionLevel.Canton)
 
             listOf("Bern", "Ber", "ber", "bER").forAll { key ->
-                lookupDataUseCase.findLocationSelectors(key, null) shouldHaveSingleElement
-                        DataSelector("Kanton Bern", "123",
-                            DataType.LOCATION_DATA, DivisionLevel.Canton, "xyz", "srg")
+                lookupDataUseCase.findLocationSelectors(key, null) shouldHaveSingleElement expected
+
             }
         }
 
@@ -66,13 +73,19 @@ class LookupTest(
 
         "test search with higher scored keyword should return multiple results" {
 
+            val dataSelectorBe =  DataSelector("Kanton Bern", "123",
+                DataType.LOCATION_DATA, "xyz", "srg")
+            val expectedBe = VotationLocationDataSelector(dataSelectorBe, DivisionLevel.Canton)
+
+            val dataSelectorLu = DataSelector("Kanton Luzern", "456",
+                DataType.LOCATION_DATA,"xyz", "srg")
+            val expectedLu = VotationLocationDataSelector(dataSelectorLu, DivisionLevel.Canton)
+
             listOf("Kanton", "kanTon", "ka").forAll { key ->
                 lookupDataUseCase.findLocationSelectors(key, null) shouldContainAll
                         listOf(
-                            DataSelector("Kanton Bern", "123",
-                                DataType.LOCATION_DATA, DivisionLevel.Canton, "xyz", "srg"),
-                            DataSelector("Kanton Luzern", "456",
-                                DataType.LOCATION_DATA, DivisionLevel.Canton, "xyz", "srg"))
+                            expectedBe,
+                            expectedLu)
             }
         }
 

@@ -4,13 +4,13 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "data_selector")
+@Inheritance(strategy = InheritanceType.JOINED)
 data class DataSelectorEntity(@Id
                         @GeneratedValue(strategy = GenerationType.IDENTITY)
                         var id: Long,
                               var name: String,
                               var extId: String,
                               var dataType: DataTypeEntity,
-                              var divisionLevel: DivisionLevelEntity,
                               var hash: String,
                               var source: String
                         )

@@ -7,7 +7,9 @@ import com.noser.heuteabstimmung.core.usecase.ImportLocationUseCase
 import com.noser.heuteabstimmung.persistence.db.impl.entities.DataSelectorEntity
 import com.noser.heuteabstimmung.persistence.db.impl.entities.DataTypeEntity
 import com.noser.heuteabstimmung.persistence.db.impl.entities.DivisionLevelEntity
+import com.noser.heuteabstimmung.persistence.db.impl.entities.VotationLocationDataSelectorEntity
 import com.noser.heuteabstimmung.persistence.db.impl.repositories.DataSelectorRepository
+import com.noser.heuteabstimmung.persistence.db.impl.repositories.VotationLocationDataSelectorRepository
 import com.noser.heuteabstimmung.persistence.db.impl.repositories.VotationLocationRepository
 import io.kotest.matchers.collections.shouldContainAll
 import io.kotest.matchers.collections.shouldHaveSingleElement
@@ -17,6 +19,7 @@ import java.net.URI
 class ImportTest(
     private val importLocationUseCase: ImportLocationUseCase,
     private val votationLocationRepository: VotationLocationRepository,
+    private val votationLocationDataSelectorRepository: VotationLocationDataSelectorRepository,
     private val dataSelectorRepository: DataSelectorRepository
 ) : DatabaseTest() {
 
@@ -50,7 +53,7 @@ class ImportTest(
             }
         }
 
-        "test import of a location twice should not location data" {
+        "test import of a location twice should not duplicate location data" {
 
             val sourceDetails = sourceDetails(true)
             
@@ -66,6 +69,9 @@ class ImportTest(
 
         }
 
+        val expectedSelector = DataSelectorEntity(1, "Kanton Bern", "123",
+            DataTypeEntity.LOCATION_DATA, votationLocation.hashCode().toString(), "srg")
+
         "test import of a location should create a selector and index keys" {
 
             val sourceDetails = sourceDetails(false)
@@ -74,10 +80,13 @@ class ImportTest(
 
             val selectors = dataSelectorRepository.findAll()
 
-            selectors shouldHaveSingleElement DataSelectorEntity(1, "Kanton Bern", "123",
-                DataTypeEntity.LOCATION_DATA, DivisionLevelEntity.Canton,
-                votationLocation.hashCode().toString(), "srg")
+            selectors shouldHaveSingleElement expectedSelector
             selectors.first().indices.map { dataIndexEntity -> dataIndexEntity.key }.shouldContainAll("Kanton", "Bern", "BE")
+
+            val votationLocationDataSelectors = votationLocationDataSelectorRepository.findAllVotationLocationDataSelectors()
+            votationLocationDataSelectors shouldHaveSingleElement VotationLocationDataSelectorEntity(1, expectedSelector,
+            DivisionLevelEntity.Canton)
+
         }
 
         "test import of a location twice should not duplicate selector and keys" {
@@ -89,8 +98,7 @@ class ImportTest(
 
             val selectors = dataSelectorRepository.findAll()
 
-            selectors shouldHaveSingleElement DataSelectorEntity(1, "Kanton Bern", "123",
-                DataTypeEntity.LOCATION_DATA, DivisionLevelEntity.Canton, votationLocation.hashCode().toString(), "srg")
+            selectors shouldHaveSingleElement expectedSelector
             selectors.first().indices.map { dataIndexEntity -> dataIndexEntity.key }.shouldContainAll("Kanton", "Bern", "BE")
         }
 
