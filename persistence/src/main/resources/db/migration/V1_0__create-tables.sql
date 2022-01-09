@@ -5,7 +5,7 @@ CREATE TABLE data_selector (
    ext_id VARCHAR(255) NOT NULL,
    data_type VARCHAR(10) NOT NULL,
 --   division_level VARCHAR(15) NOT NULL,
-   hash VARCHAR(10) NOT NULL,
+   hash VARCHAR(11) NOT NULL,
    source VARCHAR(10) NOT NULL,
    PRIMARY KEY (id),
    UNIQUE (ext_id, source)
