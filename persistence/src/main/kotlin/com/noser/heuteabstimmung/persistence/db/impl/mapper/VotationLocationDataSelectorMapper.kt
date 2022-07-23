@@ -19,7 +19,7 @@ class VotationLocationDataSelectorMapper(private val dataSelectorMapper: DataSel
             com.noser.heuteabstimmung.core.model.DivisionLevel.Municipality -> DivisionLevelEntity.Municipality
         }
 
-        return VotationLocationDataSelectorEntity(0, dataSelectorEntity, divisionLevel)
+        return VotationLocationDataSelectorEntity(0,  dataSelector.bfsNumber, dataSelectorEntity, divisionLevel)
     }
 
     fun fromEntity(entity: VotationLocationDataSelectorEntity) : VotationLocationDataSelector {
@@ -33,6 +33,6 @@ class VotationLocationDataSelectorMapper(private val dataSelectorMapper: DataSel
 
         val dataSelector = dataSelectorMapper.fromEntity(entity.dataSelectorEntity)
 
-        return VotationLocationDataSelector(dataSelector, divisionLevel)
+        return VotationLocationDataSelector(entity.bfsNumber, dataSelector, divisionLevel)
     }
 }

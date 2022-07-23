@@ -19,6 +19,13 @@ There was an error when starting
 
     Hint: $>  mvn dependency:resolve-plugins
 
+### Start with maven
+install mn:run -Dmicronaut.environments=local
+
+Does not detect changes in other modules. You have to recompile the parent-pom (as you would do anyway with maven).
+
+=> Start it with IntelliJ
+
 ### Trap: Lazy initialization
 Because I had a @Scheduled method in my dummy class, the class was always instantiated and also @PostConstruct was 
 called. When I removed the @Scheduled method suddenly my @PostConstruct method was not called anymore (where I started 
@@ -181,8 +188,8 @@ If a test failed, the transaction was somehow blocking the call to flwyway.clean
 => Set @MicronautTest(transactional = false) fixed the problem.
 
 I created a abstract class, which cares about flyway and the transaction:
-@MicronautTest(transactional = false)
 
+    @MicronautTest(transactional = false)
     abstract class DatabaseTest(body: StringSpec.() -> Unit = {}) : StringSpec(body) {
 
         @Inject
@@ -213,4 +220,6 @@ The integration of the Kotlin annotation processor (kapt) is very bad. The build
 anything in relation with annotations. A mvn install from the run configuration has to be done, when you:
 - add/change/remove annotations. e.g. @Singleton, @Prototype, @Query
 - change attributes of annotations. e.g. @Query("From x") -> @Query("From x where y")
+
+=> Known Issue: https://youtrack.jetbrains.com/issue/KT-15040
 

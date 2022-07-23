@@ -8,6 +8,7 @@ data class VotationLocationDataSelectorEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long,
+    var bfsNumber: Int,
     @OneToOne
     val dataSelectorEntity: DataSelectorEntity,
     val divisionLevel: DivisionLevelEntity

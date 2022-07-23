@@ -2,13 +2,13 @@ package com.noser.heuteabstimmung
 
 import io.micronaut.runtime.Micronaut
 
-object ApplicationKt {
+object HeuteAbstimmungApplication {
 
 	@JvmStatic
 	fun main(args: Array<String>) {
 		Micronaut.build()
 			.args(*args)
-			.mainClass(ApplicationKt.javaClass)
+			.mainClass(HeuteAbstimmungApplication.javaClass)
 			.start()
 	}
 }

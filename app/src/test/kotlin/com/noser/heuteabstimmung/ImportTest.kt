@@ -29,7 +29,7 @@ class ImportTest(
 
     init {
 
-        val votationLocation = VotationLocation("123", "Kanton Bern", "BE", DivisionLevel.Canton)
+        val votationLocation = VotationLocation("123", 2,"Kanton Bern", "BE", DivisionLevel.Canton)
 
         "test import of a location should not store data when source details deny it" {
 
@@ -84,7 +84,7 @@ class ImportTest(
             selectors.first().indices.map { dataIndexEntity -> dataIndexEntity.key }.shouldContainAll("Kanton", "Bern", "BE")
 
             val votationLocationDataSelectors = votationLocationDataSelectorRepository.findAllVotationLocationDataSelectors()
-            votationLocationDataSelectors shouldHaveSingleElement VotationLocationDataSelectorEntity(1, expectedSelector,
+            votationLocationDataSelectors shouldHaveSingleElement VotationLocationDataSelectorEntity(1, 2, expectedSelector,
             DivisionLevelEntity.Canton)
 
         }

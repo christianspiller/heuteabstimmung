@@ -27,10 +27,11 @@ class ImportLocationUseCaseImpl(private val locationPersistencePort: LocationPer
 
     private fun createLocationDataSelector(votationLocation: VotationLocation, sourceDetails: SourceDetails)
     : VotationLocationDataSelector {
-        val dataSelector = DataSelector(votationLocation.name, votationLocation.extid, DataType.LOCATION_DATA,
+        val dataSelector = DataSelector(votationLocation.name, votationLocation.extId, DataType.LOCATION_DATA,
             votationLocation.hashCode().toString(), sourceDetails.name)
 
-        val votationLocationDataSelector = VotationLocationDataSelector(dataSelector, votationLocation.level)
+        val votationLocationDataSelector = VotationLocationDataSelector(votationLocation.bfsNumber, dataSelector,
+            votationLocation.level)
 
         val keys = indexKeysCreator.createIndexKeys(votationLocation.name, votationLocation.shortName)
         dataSelector.indexKeys = keys

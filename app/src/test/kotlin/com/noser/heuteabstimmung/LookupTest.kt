@@ -30,7 +30,7 @@ class LookupTest(
         dataSelectorRepository.save(dataSelectorEntityBe)
         addKeys(dataSelectorEntityBe, "Bern", "Kanton", "BE")
         votationLocationDataSelectorRepository.save(
-            VotationLocationDataSelectorEntity(0, dataSelectorEntityBe, DivisionLevelEntity.Canton))
+            VotationLocationDataSelectorEntity(0, 2, dataSelectorEntityBe, DivisionLevelEntity.Canton))
 
 
         val dataSelectorEntityLu = DataSelectorEntity(0,"Kanton Luzern", "456",  DataTypeEntity.LOCATION_DATA,
@@ -38,7 +38,7 @@ class LookupTest(
         dataSelectorRepository.save(dataSelectorEntityLu)
         addKeys(dataSelectorEntityLu, "Luzern", "Kanton", "LU")
         votationLocationDataSelectorRepository.save(
-            VotationLocationDataSelectorEntity(0, dataSelectorEntityLu, DivisionLevelEntity.Canton))
+            VotationLocationDataSelectorEntity(0, 3, dataSelectorEntityLu, DivisionLevelEntity.Canton))
     }
 
     private fun addKeys(dataSelectorEntity: DataSelectorEntity, vararg keys: String) {
@@ -55,7 +55,7 @@ class LookupTest(
         "test search by keyword should return data selector candidates" {
             val dataSelector =  DataSelector("Kanton Bern", "123",
                 DataType.LOCATION_DATA, "xyz", "srg")
-            val expected = VotationLocationDataSelector(dataSelector, DivisionLevel.Canton)
+            val expected = VotationLocationDataSelector(2, dataSelector, DivisionLevel.Canton)
 
             listOf("Bern", "Ber", "ber", "bER").forAll { key ->
                 lookupDataUseCase.findLocationSelectors(key, null) shouldHaveSingleElement expected
@@ -75,11 +75,11 @@ class LookupTest(
 
             val dataSelectorBe =  DataSelector("Kanton Bern", "123",
                 DataType.LOCATION_DATA, "xyz", "srg")
-            val expectedBe = VotationLocationDataSelector(dataSelectorBe, DivisionLevel.Canton)
+            val expectedBe = VotationLocationDataSelector(2, dataSelectorBe, DivisionLevel.Canton)
 
             val dataSelectorLu = DataSelector("Kanton Luzern", "456",
                 DataType.LOCATION_DATA,"xyz", "srg")
-            val expectedLu = VotationLocationDataSelector(dataSelectorLu, DivisionLevel.Canton)
+            val expectedLu = VotationLocationDataSelector(3, dataSelectorLu, DivisionLevel.Canton)
 
             listOf("Kanton", "kanTon", "ka").forAll { key ->
                 lookupDataUseCase.findLocationSelectors(key, null) shouldContainAll

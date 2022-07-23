@@ -7,12 +7,22 @@ import javax.inject.Singleton
 
 @Singleton
 class DataGatewayImpl : DataGateway {
+
+    private val locations: List<VotationLocation> = (1..26).map { bfsNumber -> VotationLocation(
+        (bfsNumber-1).toString(),
+        bfsNumber + 1,
+        "${bfsNumber} de",
+        "${bfsNumber} short",
+        DivisionLevel.Canton
+    ) }
+
     override fun getAllLocations(sourceDetails: SourceDetails): List<VotationLocation> {
         val locations = mutableListOf<VotationLocation>()
 
-        for (counter in 0..10) {
+        for (counter in 0..25) {
             val votationLocation = VotationLocation(
                 counter.toString(),
+                counter + 1,
                 "${counter} de",
                 "${counter} short",
                 DivisionLevel.Canton
@@ -26,11 +36,6 @@ class DataGatewayImpl : DataGateway {
     }
 
     override fun getLocationByExtId(extId: String, sourceDetails: SourceDetails): VotationLocation? {
-        return VotationLocation(
-            extId,
-            "${extId} de",
-            "${extId} short",
-            DivisionLevel.Canton
-        )
+        return locations.find { location -> location.extId == extId }
     }
 }

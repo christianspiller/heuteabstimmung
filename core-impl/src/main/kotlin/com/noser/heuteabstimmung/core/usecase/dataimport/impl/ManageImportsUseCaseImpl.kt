@@ -8,6 +8,7 @@ import com.noser.heuteabstimmung.core.usecase.ImportLocationUseCase
 import com.noser.heuteabstimmung.core.usecase.ManageImportsUseCase
 import com.noser.heuteabstimmung.core.usecase.dataimport.util.DataImportScheduler
 import com.noser.heuteabstimmung.core.usecase.dataimport.util.ImportLocationsTask
+import org.slf4j.LoggerFactory
 import java.util.function.Consumer
 import javax.inject.Singleton
 
@@ -17,9 +18,13 @@ class ManageImportsUseCaseImpl (private val dataImportScheduler: DataImportSched
                                 private val dataGateway: DataGateway,
                                 private val importLocationUseCase: ImportLocationUseCase):
     ManageImportsUseCase {
+
+    private val log = LoggerFactory.getLogger(ManageImportsUseCaseImpl::class.java)
+
     override fun importLocations() {
-//        dataSourceDetailsPersistencePort.getSourceDetails(DataType.LOCATION_DATA)
-//            .forEach(Consumer { sourceDetails -> importLocations(sourceDetails) })
+        log.info("Use Case: import Locations")
+        dataSourceDetailsPersistencePort.getSourceDetails(DataType.LOCATION_DATA)
+            .forEach(Consumer { sourceDetails -> importLocations(sourceDetails) })
     }
 
     private fun importLocations(sourceDetails: SourceDetails) {
