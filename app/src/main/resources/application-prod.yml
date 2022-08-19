@@ -3,7 +3,7 @@ datasources:
   default:
     url: jdbc:postgresql://postgresql:5432/heuteabstimmung
     username: heuteabstimmung
-    password: '${POSTGRESQL_PASSWORD_PROD}'
+    password: irgendwas
 
 flyway:
   datasources:
