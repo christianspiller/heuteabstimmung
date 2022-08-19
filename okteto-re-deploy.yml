@@ -1,0 +1,3 @@
+deploy:
+  - envsubst < app/kubernetes/deployment.yaml.template > app/kubernetes/deployment.yaml
+  - kubectl apply -f app/kubernetes
